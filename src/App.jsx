@@ -13,20 +13,21 @@ function App() {
   const apiURL = `https://api.weatherapi.com/v1/current.json?key=f6f99450382a4bfa84390735242304&q=${city}&aqi=no`
 
   useEffect(() => {
-    fetch(apiURL)
-    .then((response) => {
-      if(!response.ok){
-        throw new Error("Error");
+    const fetchWeatherData = async () => {
+      try{
+        const response = await fetch(apiURL);
+        if(!response.ok){
+          throw new Error("Error")
+        }
+        const data = await response.json();
+        console.log(data);
+        setweatherData(data);
+      }catch(e){
+        console.log(e);
       }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      setweatherData(data);
-    })
-    .catch((e) => {
-      console.log(e);
-    })
+    };
+
+    fetchWeatherData();
   }, [city])
   
 
